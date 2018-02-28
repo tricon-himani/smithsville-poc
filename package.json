@@ -37,8 +37,7 @@
   },
   "dependencies": {
     "electron-pdf-window": "^1.0.12",
-    "electron-squirrel-startup": "^1.0.0",
-    "electron-winstaller": "^2.6.4"
+    "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
     "@angular/cli": "1.7.1",
