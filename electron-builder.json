@@ -10,19 +10,19 @@
     "createDesktopShortcut": true
   },
   "win": {
-    "icon": "dist/favicon",
+    "icon": "build/favicon",
     "target": [
-      "NSIS"
+      "nsis"
     ]
   },
   "mac": {
-    "icon": "dist/favicon",
+    "icon": "build/favicon",
     "target": [
       "dmg"
     ]
   },
   "linux": {
-    "icon": "dist",
+    "icon": "build/favicon",
     "target": [
       "AppImage"
     ]
