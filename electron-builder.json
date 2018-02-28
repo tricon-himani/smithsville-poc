@@ -4,16 +4,18 @@
     "output": "app-builds"
   }, 
   "nsis": {
-    "oneClick": false,
-    "allowToChangeInstallationDirectory": true,
+    "oneClick": true,
+    "allowToChangeInstallationDirectory": false,
     "createStartMenuShortcut": true,
-    "createDesktopShortcut": true
+    "createDesktopShortcut": true,
+    "deleteAppDataOnUninstall": false
   },
   "win": {
     "icon": "build/favicon",
     "target": [
       "nsis"
-    ]
+    ],
+    "publish": ["github"]
   },
   "mac": {
     "icon": "build/favicon",
