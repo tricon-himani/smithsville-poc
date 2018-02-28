@@ -1,10 +1,65 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import electronSquirrel from 'electron-squirrel-startup';
+import * as PDFWindow from 'electron-pdf-window';
 
-let win, serve;
+let win, serve, pdfWin;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
+
+
+const template = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Recent Folders',
+        click () {
+           console.log('****path****', app.getPath('desktop'));
+        }
+      }
+    ]
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      {
+        label: 'Call Angular Method',
+        click (item, focusedWindow) {
+          if (focusedWindow) {
+            focusedWindow.webContents.send('call-angular-method');
+          }
+        }
+      }
+    ]
+  },
+  {
+    label: 'Reports',
+    submenu: [
+      {
+         label: 'PDF Preview',
+          click () {
+            pdfWin = new PDFWindow({
+              width: 800,
+              height: 600
+            });
+
+            pdfWin.loadURL('http://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf');
+          }
+      },
+      {
+        label: 'Download PDF',
+        click (item, focusedWindow) {
+          if (focusedWindow) {
+            focusedWindow.webContents.send('download-pdf');
+          }
+        }
+      }
+    ]
+  }
+];
+
 
 try {
   require('dotenv').config();
@@ -13,6 +68,33 @@ try {
 }
 
 function createWindow() {
+
+  if (electronSquirrel) {
+    return;
+  }
+
+  // const handleSquirrelEvent = () => {
+  //   if (process.argv.length === 1) {
+  //     return false;
+  //   }
+
+  //   const squirrelEvent = process.argv[1];
+  //   switch (squirrelEvent) {
+  //     case '--squirrel-install':
+  //     case '--squirrel-updated':
+  //     case '--squirrel-uninstall':
+  //       setTimeout(app.quit, 1000);
+  //       return true;
+
+  //     case '--squirrel-obsolete':
+  //       app.quit();
+  //       return true;
+  //   }
+  // };
+
+  // if (handleSquirrelEvent()) {
+  //   return;
+  // }
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
@@ -25,19 +107,23 @@ function createWindow() {
     height: size.height
   });
 
+  // and load the index.html of the app.
   if (serve) {
     require('electron-reload')(__dirname, {
     });
     win.loadURL('http://localhost:4200');
   } else {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
-  }
+  win.loadURL(url.format({
+    protocol: 'file:',
+    pathname: path.join(__dirname, 'dist/index.html'),
+    slashes:  true
+  }));
+}
 
-  win.webContents.openDevTools();
+  // Open the DevTools.
+  // if (serve) {
+    win.webContents.openDevTools();
+  // }
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -46,6 +132,23 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
+
+  win.on('close', (e) => {
+    const choice = dialog.showMessageBox(
+      {
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        title: 'Confirm',
+        message: 'Do you want to close without saving changes?',
+        defaultId: 0
+     });
+     if (choice === 1) {
+       e.preventDefault();
+     }
+  });
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 }
 
 try {

@@ -3,3 +3,25 @@
     {{ 'PAGES.HOME.TITLE' | translate }}
   </h1>
 </div>
+<div class="hottable-container" id="excel" aria-label="table">
+  <hotTable [data]="dataObj" 
+            [columns]="columns" 
+            [colHeaders]="colHeaders" 
+            [options]="options"
+           >
+  </hotTable>
+</div>
+<div class="button-container">
+  <button type="button" (click)="downloadPDF()" tabindex="1">Download PDF</button>
+  <button type="button" (click)="exportToCSV()" tabindex="2">Export to CSV</button>
+  <button type="button" (click)="exportToExcel()" tabindex="3">Export to Excel</button>
+  <div>
+    <input type='file' accept='text/json' (change)='openFile($event)' tabindex="4" value="C:\Users">
+  </div>
+  <button type="button" (click)="saveFile()" tabindex="5">Save File</button>  
+  <button type="button" (click)="showPromptBox()" tabindex="6">Show Prompt Box</button>  
+</div>
+<app-prompt-box (prompt)="onPromptAction($event)"></app-prompt-box>
+<ul *ngIf="recentProjects.length"><b>Recent Projects:</b>
+  <li *ngFor="let project of recentProjects">{{project}}</li>
+</ul>

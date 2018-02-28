@@ -2,6 +2,12 @@
   "productName": "angular-electron",
   "directories": {
     "output": "app-builds"
+  }, 
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createStartMenuShortcut": true,
+    "createDesktopShortcut": true
   },
   "win": {
     "icon": "dist/favicon",

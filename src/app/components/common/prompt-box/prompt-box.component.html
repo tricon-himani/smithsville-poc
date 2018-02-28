@@ -1,0 +1,16 @@
+<div class="modal-overlay" *ngIf="showPopUp">
+  <div class="prompt-popup">
+    <div class="content-wrapper">
+     <h4 class="page-title">Enter Date</h4>
+     <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="onCancel()">X</button>
+      <div class="body-content">
+        <p>Please enter the fiscal year that you would like to show on this report. (2016, 2017, 2018)</p>
+        <input id="textBoxValue" name="textBoxValue" type="text" class="form-control" placeholder="Enter Year" [(ngModel)]="textBoxValue" />
+      </div>
+      <div class="button-container">
+        <button type="button" class="btn btn-primary" (click)="onOk()">Ok</button>
+        <button type="button" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
