@@ -15,7 +15,11 @@
     "target": [
       "nsis"
     ],
-    "publish": ["github"]
+    "publish": [{
+      "provider": "github",
+      "repo": "smithsville-poc",
+      "token": "3717d7f716908c2e75af107e30fee92806379ee9"
+    }]
   },
   "mac": {
     "icon": "build/favicon",

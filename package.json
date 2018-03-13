@@ -1,7 +1,7 @@
 {
   "name": "smithsville_poc",
   "productName": "Smithsville poc",
-  "version": "1.0.0",
+  "version": "3.0.1",
   "description": "Smithsville app in angular and electron",
   "homepage": "https://github.com/tricon-himani/smithsville-poc",
   "author": {
@@ -33,11 +33,14 @@
     "test": "karma start ./karma.conf.js",
     "pree2e:build": "webdriver-manager update --gecko false && npm run ng:serve",
     "pree2e:protractor": "wait-on http-get://localhost:4200/ && protractor ./protractor.conf.js",
-    "e2e": "npm-run-all -p pree2e:build pree2e:protractor"
+    "e2e": "npm-run-all -p pree2e:build pree2e:protractor",
+    "publish:windows": "build --win -p always",
+    "publish:mac": "build --mac -p always"
   },
   "dependencies": {
+    "electron-log": "^2.2.14",
     "electron-pdf-window": "^1.0.12",
-    "electron-updater": "^2.20.1"
+    "electron-updater": "^2.21.0"
   },
   "devDependencies": {
     "@angular/cli": "1.7.1",
