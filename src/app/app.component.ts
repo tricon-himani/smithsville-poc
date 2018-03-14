@@ -36,4 +36,9 @@ export class AppComponent {
   callAngularMethod() {
     console.log('electron invoked angular method');
   }
+
+  saveFile() {
+    console.log('hello world');
+    this.electronService.ipcRenderer.send('save-file', 'hello world');
+  }
 }

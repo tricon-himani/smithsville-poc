@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen, Menu, dialog } from 'electron';
+import { app, BrowserWindow, screen, Menu, dialog, ipcRenderer, ipcMain  } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import electronSquirrel from 'electron-squirrel-startup';
@@ -8,6 +8,10 @@ import * as updater from './updater';
 let win, serve, pdfWin;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
+
+ipcMain.on('save-file', (event, arg) => {
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>', arg);
+});
 
 const template = [
   {
@@ -118,17 +122,17 @@ function createWindow() {
   });
 
   win.on('close', (e) => {
-    const choice = dialog.showMessageBox(
-      {
-        type: 'question',
-        buttons: ['Yes', 'No'],
-        title: 'Confirm',
-        message: 'Do you want to close without saving changes?',
-        defaultId: 0
-     });
-     if (choice === 1) {
-       e.preventDefault();
-     }
+    // const choice = dialog.showMessageBox(
+    //   {
+    //     type: 'question',
+    //     buttons: ['Yes', 'No'],
+    //     title: 'Confirm',
+    //     message: 'Do you want to close without saving changes?',
+    //     defaultId: 0
+    //  });
+    //  if (choice === 1) {
+    //    e.preventDefault();
+    //  }
   });
 
   const menu = Menu.buildFromTemplate(template);
@@ -141,8 +145,8 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', () => {
-    // autoUpdater.checkForUpdates();
     createWindow();
+  //  updater.checkForUpdates();
   });
 
   // Quit when all windows are closed.
