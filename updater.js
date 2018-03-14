@@ -7,11 +7,17 @@
  * 1. create `updater.js` for the code snippet
  * 2. require `updater.js` for menu implementation, and set `checkForUpdates` callback from `updater` for the click property of `Check Updates...` MenuItem.
  */
-const { dialog } = require('electron')
+const { app, dialog } = require('electron')
 const { autoUpdater } = require('electron-updater')
+const log = require('electron-log')
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 let updater
 autoUpdater.autoDownload = false
+
 
 autoUpdater.on('error', (error) => {
   dialog.showErrorBox('Error: ', error == null ? "unknown" : (error.stack || error).toString())
@@ -28,8 +34,10 @@ autoUpdater.on('update-available', () => {
       autoUpdater.downloadUpdate()
     }
     else {
-      updater.enabled = true
-      updater = null
+      if (updater != undefined) {
+        updater.enabled = true
+        updater = null
+      }
     }
   })
 })
@@ -39,23 +47,44 @@ autoUpdater.on('update-not-available', () => {
     title: 'No Updates',
     message: 'Current version is up-to-date.'
   })
-  updater.enabled = true
-  updater = null
+  if (updater != undefined) {
+    updater.enabled = true
+    updater = null
+  }  
+})
+
+autoUpdater.on('download-progress', (e, progress) => {
+  log.info('Download progress', progress.percent);
 })
 
 autoUpdater.on('update-downloaded', () => {
-  dialog.showMessageBox({
+  const options = {
+    type: 'info',
+    buttons: ['Update Now'],
+    defaultId: 0,
+    noLink: true,
     title: 'Install Updates',
-    message: 'Updates downloaded, application will be quit for update...'
-  }, () => {
-    setImmediate(() => autoUpdater.quitAndInstall())
-  })
+    message: 'A new version is ready to install.',
+    detail: 'The update will proceed once you click Update Now.'
+  };
+  const callback = (buttonIndex) => {
+    if (buttonIndex === 0) {
+   // autoUpdater.quitAndInstall();
+      app.removeAllListeners("close")   
+      setImmediate(() => {
+        autoUpdater.quitAndInstall(false)
+      }, 5000)
+    }
+  };
+  dialog.showMessageBox(null, options, callback);
 })
 
 // export this to MenuItem click callback
 function checkForUpdates (menuItem, focusedWindow, event) {
-  updater = menuItem
-  updater.enabled = false
+  if (menuItem) {
+    updater = menuItem
+    updater.enabled = false
+  }  
   autoUpdater.checkForUpdates()
 }
 module.exports.checkForUpdates = checkForUpdates
