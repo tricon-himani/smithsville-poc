@@ -3,15 +3,24 @@ import * as path from 'path';
 import * as url from 'url';
 import electronSquirrel from 'electron-squirrel-startup';
 import * as PDFWindow from 'electron-pdf-window';
-import * as updater from './updater';
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+// import * as updater from './updater';
 
 let win, serve, pdfWin;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
+
 ipcMain.on('save-file', (event, arg) => {
   console.log('>>>>>>>>>>>>>>>>>>>>>>>>', arg);
 });
+
+let menu;
+autoUpdater.autoDownload = false;
 
 const template = [
   {
@@ -66,9 +75,17 @@ const template = [
     label: 'Updates',
     submenu: [
       {
-        label: 'check for Updates',
+        label: 'Check for Updates',
+        visible: true,
         click (item, focusedWindow) {
-          updater.checkForUpdates(item, focusedWindow);
+          autoUpdater.checkForUpdates(item);
+        }
+      },
+      {
+        label: 'Restart to Update',
+        visible: false,
+        click (item, focusedWindow) {
+          autoUpdater.quitAndInstall();
         }
       }
     ]
@@ -135,9 +152,73 @@ function createWindow() {
     //  }
   });
 
-  const menu = Menu.buildFromTemplate(template);
+  menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
+
+/*********auto updater **************/
+
+
+autoUpdater.on('checking-for-update', () => {
+  sendStatusToWindow('Checking for update...');
+});
+
+autoUpdater.on('update-available', (ev, info) => {
+  sendStatusToWindow('Update available.');
+  autoUpdater.downloadUpdate();
+});
+
+autoUpdater.on('update-not-available', (ev, info, item) => {
+  sendStatusToWindow('Update not available.');
+  log.info('sdfsdgd', ev, info, item);
+  dialog.showMessageBox({
+    title: 'No Updates',
+    message: 'Current version is up-to-date.'
+  });
+});
+
+autoUpdater.on('error', (ev, err) => {
+  sendStatusToWindow('Error in auto-updater.');
+});
+
+
+autoUpdater.on('download-progress', (progressObj) => {
+  let log_message = 'Download speed: ' + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+  log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
+  sendStatusToWindow(log_message);
+});
+
+autoUpdater.on('update-downloaded', (ev, info) => {
+  sendStatusToWindow('Update downloaded.');
+
+
+  dialog.showMessageBox({
+      type: 'question',
+      buttons: ['Install and Relaunch', 'Install Later'],
+      defaultId: 0,
+      message: 'A new version of ' + app.getName() + ' has been downloaded',
+      detail: 'It will be installed the next time you restart the application'
+    }, response => {
+    if (response === 0) {
+    setTimeout(() => {
+      app.removeAllListeners('window-all-closed');
+      app.removeAllListeners('close');
+      autoUpdater.quitAndInstall();
+    });
+    } else {
+      menu.items[3].submenu.items[0].visible = false;
+      menu.items[3].submenu.items[1].visible = true;
+    }
+  });
+});
+
+function sendStatusToWindow(text) {
+  log.info(text);
+  win.webContents.send('message', text);
+}
+
+/***********************************/
 
 try {
 
@@ -145,6 +226,7 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', () => {
+    autoUpdater.checkForUpdates();
     createWindow();
   //  updater.checkForUpdates();
   });
