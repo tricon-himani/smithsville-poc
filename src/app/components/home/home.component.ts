@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { DataService, PdfGeneratorService, XlGenService } from '../../providers';
+import { PdfGeneratorService, XlGenService } from '../../providers';
 import * as jsPDF from 'jspdf';
 import * as $ from 'jquery';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
@@ -7,13 +7,13 @@ import { PromptBoxComponent } from '../common';
 import excelData from './excel-data';
 import { HotTableComponent } from 'ng2-handsontable';
 import { DomSanitizer } from '@angular/platform-browser';
-import data from '../../../mocks/data';
+import data from '../../mocks/data';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [DataService, PdfGeneratorService, XlGenService],
+  providers: [PdfGeneratorService, XlGenService],
   encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit {
@@ -28,15 +28,11 @@ export class HomeComponent implements OnInit {
   @ViewChild(PromptBoxComponent) promptPopUp: PromptBoxComponent;
   @ViewChild(HotTableComponent) hot: HotTableComponent;
 
-  constructor(public dataService: DataService,
-              public pdfGeneratorService: PdfGeneratorService,
+  constructor(public pdfGeneratorService: PdfGeneratorService,
               public xlGenService: XlGenService,
               public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    // this.dataService.getJSON().subscribe(data =>
-    //   this.dataObj = data,
-    // error => console.log(error));
     this.dataObj = data;
 
     this.recentProjects = localStorage.getItem('recentProjects') ? JSON.parse(localStorage.getItem('recentProjects')) : [];

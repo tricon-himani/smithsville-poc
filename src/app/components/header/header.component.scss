@@ -1,0 +1,20 @@
+@import "../../styles/core";
+
+header {
+    background-color: $header-bg;
+}
+.container {
+    height: 10%;
+    display: flex;
+ //   align-items: center;
+ //   justify-content: center;
+   // background: url(../../../assets/background.jpg) no-repeat center fixed;
+    -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+    background-size: cover; /* version standardisée */
+  
+    .title {
+      color: white;
+      margin:0;
+      padding:40px 20px;
+    }      
+  }

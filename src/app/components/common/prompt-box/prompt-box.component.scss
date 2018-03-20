@@ -1,15 +1,4 @@
-/* Confirmation popup Styles: Starts--*/
-
-$input-border: #928e8e !default;
-$body-bg: white;
-
-$font-size-h1: 42px !default; // ~42px
-$font-size-h2: 24px !default; // ~24px
-$font-size-h3: 22px !default; // ~22px
-$font-size-h4: 18px  !default; // ~18px
-$font-size-h5: 13px !default;
-$font-size-h6: 12px !default; // ~12px
-
+@import "../../../styles/core";
 
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.3);

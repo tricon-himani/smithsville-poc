@@ -170,8 +170,8 @@ autoUpdater.on('update-available', (ev, info) => {
 
 autoUpdater.on('update-not-available', (ev, info, item) => {
   sendStatusToWindow('Update not available.');
-  log.info('sdfsdgd', ev, info, item);
   dialog.showMessageBox({
+    type: 'info',
     title: 'No Updates',
     message: 'Current version is up-to-date.'
   });
@@ -191,7 +191,6 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 autoUpdater.on('update-downloaded', (ev, info) => {
   sendStatusToWindow('Update downloaded.');
-
 
   dialog.showMessageBox({
       type: 'question',
@@ -226,7 +225,7 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', () => {
-    autoUpdater.checkForUpdates();
+   // autoUpdater.checkForUpdates();
     createWindow();
   //  updater.checkForUpdates();
   });

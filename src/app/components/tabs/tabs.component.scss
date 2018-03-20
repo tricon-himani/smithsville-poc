@@ -1,0 +1,48 @@
+@import "../../styles/core";
+
+body, html {
+  font-family: Helvetica, Arial, sans-serif;
+}
+.tabs-wraper {
+    background-color: $body-bg;
+    -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+    background-size: cover; /* version standardisée */
+    position: relative;
+    top: -1em;
+    .tabs {
+      background-color: $header-bg;
+      display: flex;
+      position: relative;
+      list-style: none;
+      padding: 0;
+      height: 30px;
+      margin-bottom: 0;
+      width: 100%;
+      li {
+        background-color: $body-dark-bg;
+        display: inline-block;
+        text-align: center;
+        width: 10%;
+        font-size: 18px;
+        margin-right: 4px;
+        .tab-link { 
+          color: $gray-base;
+          text-decoration: none;
+          position: relative;
+          top: 3px;
+         }
+        &.active {
+          background-color: $body-bg;          
+          .tab-link {            
+            &:before {
+              content: "";
+              position: absolute;
+              bottom: -5px;
+              left: 0;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  } /*--tabs-wrapper: ends--*/

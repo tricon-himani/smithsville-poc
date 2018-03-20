@@ -1,0 +1,20 @@
+<div class="tabs-wraper">
+    <ul class="tabs">
+      <li id="HomeTab"  [routerLinkActive]="['active']">
+        <a class="tab-link" [routerLink]="['/home']">Home</a>
+      </li>
+      <li id="JournalTab"  [routerLinkActive]="['active']">
+        <a class="tab-link" [routerLink]="['/journal']">Journal</a>
+      </li>
+      <li id="LedgerTab" [routerLinkActive]="['active']">
+        <a class="tab-link" [routerLink]="['/ledger']">Ledger</a>
+      </li>
+      <li id="AccountsTab" [routerLinkActive]="['active']">
+        <a class="tab-link" [routerLink]="['/accounts']">Accounts</a>
+      </li>
+      <li id="EntitiesTab" [routerLinkActive]="['active']">
+        <a class="tab-link" [routerLink]="['/entities']">Entities</a>
+      </li>
+    </ul>
+    <router-outlet></router-outlet>
+</div>

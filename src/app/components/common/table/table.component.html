@@ -1,0 +1,56 @@
+   
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" *ngFor="let map of columnMaps">{{ map.header }}</th>           
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of records">
+            <td *ngFor="let map of columnMaps" [styleCell]="record[map.primaryKey]">
+                <ng-container *ngIf="map.primaryKey!=='posted';else checkbox_content">
+                    {{ record[map.primaryKey] | formatCell: map.format }}
+                </ng-container>    
+                <ng-template #checkbox_content>
+                    <app-checkbox [posted]="record[map.primaryKey]" name="posted"></app-checkbox>
+                </ng-template>                
+            </td>
+        </tr>
+        <!-- <ng-container *ngIf="source=='journal'">
+            <form [formGroup]="addEntryForm" novalidate> 
+            <tr class="add-entry-row">
+                <td></td>
+                <td>
+                    <div ngbDropdown class="d-inline-block" class="form-group">
+                        <button class="btn btn-outline-primary" id="dropdownAddAccount" class="form-control" ngbDropdownToggle>{{selectedAccount}}</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownAddAccount">
+                            <button class="dropdown-item" *ngFor="let account of accounts" (click)="selectAccount(account)">{{account.description}}</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div ngbDropdown class="d-inline-block" class="form-group">
+                        <button class="btn btn-outline-primary" id="dropdownAddYear" class="form-control"  ngbDropdownToggle>{{selectedYear}}</button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownAddYear">
+                            <button class="dropdown-item" *ngFor="let year of yearDropDownData" (click)="selectYear(year)">{{year}}</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <input type="text" class="form-control" formControlName="description" aria-describedby="description" placeholder="Add description">
+                </td>
+                <td>
+                    <input type="text" class="form-control" formControlName="debits" aria-describedby="debits" placeholder="Add debits">
+                </td>
+                <td>
+                    <input type="text" class="form-control" formControlName="credits" aria-describedby="credits" placeholder="Add credits">
+                </td>
+                <td>
+                   <button class="btn btn-primary add">Add</button>
+                   <button class="btn btn-primary cancel">Cancel</button>
+                </td>
+            </tr>
+            </form>
+        </ng-container> -->
+    </tbody>
+</table>  

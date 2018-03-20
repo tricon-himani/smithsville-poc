@@ -1,2 +1,11 @@
-<router-outlet></router-outlet>
-<button type="button" (click)="saveFile()" tabindex="1">Angular to Electron</button>
+<div class="main-container">
+    <div class="menu">
+        <span class="user-name">Accountant: {{user}}</span>
+    </div>
+    <header></header>
+    <div class="header-image">
+        <img [src]="'../../assets/img/smithsville.jpg'">
+    </div>
+    <router-outlet></router-outlet>
+</div>
+<!-- <button type="button" (click)="saveFile()" tabindex="1">Angular to Electron</button> -->

@@ -1,7 +1,7 @@
 {
   "name": "smithsville_poc",
   "productName": "Smithsville poc",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "Smithsville app in angular and electron",
   "homepage": "https://github.com/tricon-himani/smithsville-poc",
   "author": {
@@ -38,9 +38,11 @@
     "publish:mac": "build --mac -p always"
   },
   "dependencies": {
+    "@ng-bootstrap/ng-bootstrap": "^1.0.1",
     "electron-log": "^2.2.14",
     "electron-pdf-window": "^1.0.12",
-    "electron-updater": "^2.21.0"
+    "electron-updater": "^2.21.0",
+    "font-awesome": "^4.7.0"
   },
   "devDependencies": {
     "@angular/cli": "1.7.1",
@@ -61,6 +63,7 @@
     "@types/jasminewd2": "2.0.2",
     "@types/node": "7.0.7",
     "angular2-csv": "^0.2.5",
+    "bootstrap": "^4.0.0",
     "codelyzer": "4.0.1",
     "copyfiles": "1.2.0",
     "core-js": "2.4.1",

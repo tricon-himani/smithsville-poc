@@ -11,6 +11,9 @@ import { HomeComponent } from './components';
   providers: [HomeComponent, DataService, PdfGeneratorService, XlGenService]
 })
 export class AppComponent {
+
+  user = 'User Name';
+
   constructor(public electronService: ElectronService,
               private translate: TranslateService,
               public homeComponent: HomeComponent) {

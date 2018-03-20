@@ -3,12 +3,12 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {  ReactiveFormsModule,  FormsModule } from '@angular/forms';
 import { HotTableModule } from 'ng2-handsontable';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 
 // NG Translate
@@ -17,10 +17,22 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ElectronService } from './providers/electron.service';
 
-import { WebviewDirective } from './directives/webview.directive';
+import { WebviewDirective, StyleCellDirective } from './directives';
+import { EmptyArrayPipe, FormatCellPipe } from './pipes';
+import { CurrencyPipe } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { HomeComponent, PromptBoxComponent } from './components';
+import { HomeComponent,
+        PromptBoxComponent,
+        CheckboxComponent,
+        TableComponent,
+        TabsComponent,
+        JournalComponent,
+        LedgerComponent,
+        AccountsComponent,
+        EntitiesComponent,
+        HeaderComponent
+      } from './components';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -32,15 +44,28 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     PromptBoxComponent,
-    WebviewDirective
+    CheckboxComponent,
+    TableComponent,
+    TabsComponent,
+    JournalComponent,
+    LedgerComponent,
+    AccountsComponent,
+    EntitiesComponent,
+    HeaderComponent,
+    WebviewDirective,
+    StyleCellDirective,
+    EmptyArrayPipe,
+    FormatCellPipe
   ],
   imports: [
     HotTableModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     AppRoutingModule,
+    NgbModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -49,7 +74,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
-  providers: [ElectronService],
+  providers: [ElectronService, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

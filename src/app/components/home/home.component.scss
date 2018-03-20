@@ -1,27 +1,12 @@
-.container {
-  height: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@import "../../styles/core";
 
-  background: url(../../../assets/background.jpg) no-repeat center fixed;
-  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
-  background-size: cover; /* version standardisée */
-
-  .title {
-    color: white;
-    margin:0;
-    padding:50px 20px;
-  }
-
-}
 .hottable-container, .button-container {
   display: flex;
   justify-content: center;
   margin: 3em 1em;
   text-align: center;
   width: 100%;
-  button {
+  .btn {
     margin: 0 0.5em;
   }
   td {

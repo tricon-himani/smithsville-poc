@@ -1,0 +1,16 @@
+@import "../../../styles/core";
+
+.table {
+    tbody {
+        tr.selected {
+            background-color: $brand-primary;
+            color: $body-bg;
+        }        
+        tr.add-entry-row {
+            #description {
+                border: none;
+                border-bottom: 1px solid $brand-primary;
+            }
+        }
+    }
+}

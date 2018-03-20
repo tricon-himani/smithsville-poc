@@ -1,0 +1,32 @@
+@import "variables";
+
+
+.btn-primary {
+    background-color: $brand-primary;
+    border-color: $brand-primary;
+}
+.btn-outline-primary {
+    color: $brand-primary;
+    border-color: $brand-primary;
+}
+.btn-outline-primary:hover {
+    background-color: $brand-primary;
+    border-color: $brand-primary;
+    color: $body-bg;
+}
+
+.table {
+    th, td {
+        padding: 0.4rem;
+    }
+    thead {
+        tr {
+            th {
+                text-align: center;
+                color: $brand-primary;
+                font-weight: 400;
+            }
+        }
+    }
+    
+}
