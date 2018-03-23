@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { PdfGeneratorService, XlGenService } from '../../providers';
+import { PdfGeneratorService, XlGenService, ElectronService } from '../../providers';
 import * as jsPDF from 'jspdf';
 import * as $ from 'jquery';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
 
   constructor(public pdfGeneratorService: PdfGeneratorService,
               public xlGenService: XlGenService,
+              public electronService: ElectronService,
               public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
@@ -119,13 +120,11 @@ export class HomeComponent implements OnInit {
   downloadPDF() {
     const elementToPrint = document.getElementById('excel');
   //  this.pdfGeneratorService.GeneratePDF(elementToPrint);
-    const doc = new jsPDF();
+    const doc = new jsPDF('p', 'pt', 'a4');
     doc.addHTML(elementToPrint, () => {
-      doc.save('downloadPDf.pdf');
-   //  const data = doc.output('dataurlstring', {});
-   //   this.uriString = this.sanitizer.bypassSecurityTrustResourceUrl(doc.output('dataurlstring', {}));
-   //   console.log(this.uriString);
-   //   $('#report').html('<iframe src="data"></iframe>');
+      // doc.save('downloadPDf.pdf');
+      const pdfdata = doc.output('dataurlstring', {});
+      this.electronService.ipcRenderer.send('save-file', pdfdata);
     });
   }
 

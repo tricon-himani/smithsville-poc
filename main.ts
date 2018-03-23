@@ -5,6 +5,8 @@ import electronSquirrel from 'electron-squirrel-startup';
 import * as PDFWindow from 'electron-pdf-window';
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const fs = require('fs');
+
 // import * as updater from './updater';
 
 let win, serve, pdfWin;
@@ -16,7 +18,13 @@ autoUpdater.logger.transports.file.level = 'info';
 log.info('App starting...');
 
 ipcMain.on('save-file', (event, arg) => {
-  console.log('>>>>>>>>>>>>>>>>>>>>>>>>', arg);
+  const filePath = 'D:/workspace/tool/smithsville-poc/pdf.pdf';
+  const base64PDF = arg.split(';base64,').pop();
+  fs.writeFile(filePath, base64PDF, { encoding: 'base64' }, function (err) {
+  });
+  pdfWin = new PDFWindow();
+
+  pdfWin.loadURL(filePath);
 });
 
 let menu;

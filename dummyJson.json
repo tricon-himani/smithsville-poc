@@ -1,0 +1,57 @@
+{
+	"accounts": {
+		"Tax Agency Fund": [
+      {
+				"Description": "cash",
+				"Account number": 1010,
+				"Control Account": 1010
+			},
+			{
+				"Description": "Due to Smith County",
+				"Account number": 2040,
+				"Control Account": 2040
+      }
+    ],
+    "General Fund" : [
+      {
+        "Description" : "cash",
+        "Account number": 1010,
+        "Control Account": 1010
+      },
+      {
+        "Description" : "Expenditures",
+        "Account number": 6010,
+        "Control Account": 6010,
+        "child-accounts" : [
+          {
+            "Description": "Expenditures-General Goverment",
+            "Account number": 6020,
+            "Control Account": 6010
+          },
+          {
+            "Description": "Expenditures-Public Safety",
+            "Account number": 6030,
+            "Control Account": 6010
+          },
+          {
+            "Description": "Expenditures-Public Works",
+            "Account number": 6030,
+            "Control Account": 6010
+          }
+        ]
+      }
+    ],
+    "Solid Waste Disposal Fund" : [
+      {
+        "Description": "cash",
+        "Account number": 1010,
+        "Control Account": 1010
+      },
+      {
+          "Description": "Land",
+          "Account number": 1250,
+          "Control Account": 1250
+      }
+    ]
+	}
+}
