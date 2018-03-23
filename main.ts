@@ -51,14 +51,15 @@ const template = [
     label: 'Reports',
     submenu: [
       {
-         label: 'PDF Preview',
+         label: 'Read Instructions',
           click () {
             pdfWin = new PDFWindow({
               width: 800,
               height: 600
             });
-
-            pdfWin.loadURL('http://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf');
+            const path1 = __dirname + '/src/assets/doc/Instructions_Smithville_Full_Version_17ed.pdf';
+            pdfWin.loadURL(path1);
+            console.log('__dirname', path1);
           }
       },
       {
