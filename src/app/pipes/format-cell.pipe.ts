@@ -10,8 +10,8 @@ export class FormatCellPipe implements PipeTransform {
     ) { }
 
     transform(value: any, format: string) {
-        if ( value === undefined ) {
-            return 'NA';
+        if ( value === undefined || value === 0) {
+            return '';
         }
         if ( format === 'default' ) {
             if ( Array.isArray(value) ) {
@@ -28,7 +28,8 @@ export class FormatCellPipe implements PipeTransform {
             }
         }
         if (format === 'currency') {
-            return this.currencyPipe.transform(value, 'INR', 'symbol-narrow');
+            // no decimal but comma in currency
+            return this.currencyPipe.transform(value, 'INR', 'symbol-narrow', '1.0-0');
         }
         return value;
     }

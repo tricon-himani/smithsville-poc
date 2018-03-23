@@ -1,7 +1,7 @@
 <div class="top-container">
     <h4 class="page-title">Journal entries table</h4>
     <div class="button-container">
-        <button class="btn btn-primary btn-lg add-entry">Add new entry</button>
+        <button class="btn btn-primary btn-lg add-entry" (click)="journalTable.showform=true">Add new entry</button>
         <div ngbDropdown class="d-inline-block filter-entries">
             <button class="btn btn-outline-primary btn-lg" id="dropdownFilterEntries" ngbDropdownToggle>{{selectedFilter}}</button>
             <div ngbDropdownMenu aria-labelledby="dropdownFilterEntries">
@@ -11,8 +11,15 @@
     </div>
 </div>
 <div class="journal-list-wrapper">    
-    <app-table [records]="journals" [settings]="journalSettings" [source]="'journal'" [accounts]="accounts"></app-table>
+    <app-table #journalTable [records]="journals"
+               [settings]="journalSettings"
+               [source]="'journal'"
+               [accounts]="accounts"
+               (submitForm)="onAddFormReturn($event)"></app-table>
 </div>
 <div class="bottom-container">
-
+    <p class="error" *ngIf="invalidEntries">Your debits do not equal your credits. Unable to Continue.</p>
+    <div class="button-container">
+        <button class="btn btn-primary post-entries" (click)="postEntries()">Post Entries</button>
+    </div>    
 </div>

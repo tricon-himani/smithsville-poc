@@ -1,56 +1,93 @@
-   
-<table class="table table-striped table-bordered">
+<form #addForm="ngForm" (ngSubmit)="onSubmit()" novalidate> 
+<table class="table table-striped table-bordered" tabindex="0">
     <thead>
         <tr>
             <th scope="col" *ngFor="let map of columnMaps">{{ map.header }}</th>           
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let record of records">
+        <tr *ngFor="let record of records" [class]="'record_'+record.id">
             <td *ngFor="let map of columnMaps" [styleCell]="record[map.primaryKey]">
                 <ng-container *ngIf="map.primaryKey!=='posted';else checkbox_content">
                     {{ record[map.primaryKey] | formatCell: map.format }}
                 </ng-container>    
                 <ng-template #checkbox_content>
                     <app-checkbox [posted]="record[map.primaryKey]" name="posted"></app-checkbox>
-                </ng-template>                
+                </ng-template>    
+                <ng-container *ngIf="source=='journal' && map.primaryKey=='ref_2'">
+                    <div class="context-menu" ngbDropdown>
+                        <span ngbDropdownToggle>...</span>
+                        <ul ngbDropdownMenu aria-labelledby="dropdownAddAccount">
+                            <li class="dropdown-item"><a  (click)="navigateToEditForm(record, $event)">Edit Entry</a></li>
+                        </ul>
+                    </div>
+                </ng-container>               
             </td>
-        </tr>
-        <!-- <ng-container *ngIf="source=='journal'">
-            <form [formGroup]="addEntryForm" novalidate> 
-            <tr class="add-entry-row">
+        </tr>     
+       
+        <ng-container *ngIf="source=='journal' && showform">
+         
+            <tr class="add-entry-row" >                
                 <td></td>
-                <td>
-                    <div ngbDropdown class="d-inline-block" class="form-group">
-                        <button class="btn btn-outline-primary" id="dropdownAddAccount" class="form-control" ngbDropdownToggle>{{selectedAccount}}</button>
+                <td>                   
+                    <!-- <select class="form-control" name="account" id="account" [(ngModel)]="newJournal.account" #account="ngModel" required>
+                        <option *ngFor="let account of accounts" [value]="account.description">{{account.description}}</option>
+                    </select> -->            
+                    <div ngbDropdown class="d-inline-block account-list-wrapper" class="form-group">                     
+                        <input type="text" class="form-control" name="account" #searchField [ngModel]="newJournal.account" ngbDropdownToggle
+                            (keyup)="filterArray(searchField.value)" placeholder="Select account or enter account name" />
                         <div ngbDropdownMenu aria-labelledby="dropdownAddAccount">
-                            <button class="dropdown-item" *ngFor="let account of accounts" (click)="selectAccount(account)">{{account.description}}</button>
+                            <button class="dropdown-item" *ngFor="let account of filteredAccounts" (click)="selectAccount(account)">
+                                {{account.description}}
+                            </button>
                         </div>
                     </div>
                 </td>
-                <td>
+                <td>                    
+                    <!-- <select class="form-control" name="year" id="year" [(ngModel)]="newJournal.year"  #year="ngModel" required>
+                        <option *ngFor="let year of yearDropDownData" [value]="year">{{year}}</option>
+                    </select> -->
                     <div ngbDropdown class="d-inline-block" class="form-group">
-                        <button class="btn btn-outline-primary" id="dropdownAddYear" class="form-control"  ngbDropdownToggle>{{selectedYear}}</button>
+                        <button class="btn btn-outline-primary" id="dropdownAddYear" class="form-control"  ngbDropdownToggle
+                        name="year">{{selectedYear}}</button>
                         <div ngbDropdownMenu aria-labelledby="dropdownAddYear">
                             <button class="dropdown-item" *ngFor="let year of yearDropDownData" (click)="selectYear(year)">{{year}}</button>
                         </div>
                     </div>
                 </td>
-                <td>
-                    <input type="text" class="form-control" formControlName="description" aria-describedby="description" placeholder="Add description">
+                <td>                   
+                    <input type="text" class="form-control" name="description" [readonly]="readonly" [(ngModel)]="newJournal.description" #description="ngModel"
+                        aria-describedby="description" placeholder="Add description" required>
                 </td>
                 <td>
-                    <input type="text" class="form-control" formControlName="debits" aria-describedby="debits" placeholder="Add debits">
+                    <input type="number" class="form-control" name="debits" [(ngModel)]="newJournal.debits"  #debits="ngModel"
+                    aria-describedby="debits" placeholder="Add debits">
+                    <div *ngIf="debits.value && credits.value" class="error">
+                       You can not have a debit and a credit on the same line
+                    </div>
                 </td>
-                <td>
-                    <input type="text" class="form-control" formControlName="credits" aria-describedby="credits" placeholder="Add credits">
-                </td>
-                <td>
-                   <button class="btn btn-primary add">Add</button>
-                   <button class="btn btn-primary cancel">Cancel</button>
+                <td colspan="2">
+                    <div class="credits-container">
+                        <input type="number" class="form-control" name="credits" [(ngModel)]="newJournal.credits"  #credits="ngModel"
+                        aria-describedby="credits" placeholder="Add credits">
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="closingEntry" name="closingEntry" (click)="onFilterChange($event)" [ngModel]="''" #closingEntry="ngModel">
+                        <label for="closingEntry">Closing Entry</label>
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="btn btn-primary add" [disabled]="form.invalid || (form.valid && (!debits.value && !credits.value || debits.value && credits.value )) ">Add</button>
+                        <button class="btn btn-primary cancel" (click)="reset();showform=false">Cancel</button>
+                    </div>
                 </td>
             </tr>
-            </form>
-        </ng-container> -->
+        </ng-container>
+
+        <tr *ngFor="let record of records | emptyArray: emptyArrayLength">
+            <td *ngFor="let map of columnMaps">
+                  &nbsp;                    
+            </td>
+        </tr>
     </tbody>
 </table>  
+</form>

@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {  ReactiveFormsModule,  FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HotTableModule } from 'ng2-handsontable';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -61,7 +61,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     HotTableModule,
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     AppRoutingModule,

@@ -12,9 +12,11 @@ import { DataService } from '../../../providers';
 export class JournalComponent implements OnInit {
 
   journals: Journal[];
+  entries: Journal[] = [];
   accounts: Account[];
   filterDropDownData: Array<string> = ['All', 'Posted', 'Unposted'];
   selectedFilter: any = 'Filter entries';
+  invalidEntries = false;
   journalSettings: ColumnSetting[] =
   [
     {
@@ -70,4 +72,28 @@ export class JournalComponent implements OnInit {
       }
     });
   }
+
+  onAddFormReturn(data: any) {
+    this.entries.push(data.newJournal);
+  }
+
+  postEntries() {
+    let totalDebits = 0;
+    let totalCredits = 0;
+    this.entries.map(e => totalDebits += e.debits);
+    this.entries.map(e => totalCredits += e.credits);
+    if (totalCredits ===  totalDebits ) {
+      this.invalidEntries = false;
+      this.journals.map(j => {
+        if (this.entries.map(e => e.id).indexOf(j.id) > -1 ) {
+          j.posted = true;
+        }
+        return j;
+      });
+    } else {
+      this.invalidEntries = true;
+    }
+  }
+
+
 }

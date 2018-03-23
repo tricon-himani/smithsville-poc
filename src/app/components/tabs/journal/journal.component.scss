@@ -1,6 +1,6 @@
 @import "../../../styles/core";
 
-.top-container {
+.top-container, .bottom-container {
     display: flex;
     margin: 1em 0.5em;
     position: relative;
@@ -14,11 +14,16 @@
         .add-entry {
             margin-right: 0.5em;
         }
+        margin-bottom: 1em;
+    }
+    .error {
+        color: $brand-danger;
     }
 }
 .journal-list-wrapper {
     margin-top: 2em;   
     .add {
         margin-right: 0.5em;
+        margin-left: 0.5em;
     } 
 }

@@ -54,7 +54,7 @@ export const JOURNALS: Journal[] = [
         account:  'cash',
         year: 2018,
         description: '2b',
-        debits: 111.10,
+        debits: 1114543.10,
         credits: 123.43,
         ref_2: 101
     },
@@ -64,18 +64,18 @@ export const JOURNALS: Journal[] = [
         account:  'cash',
         year: 2018,
         description: '2b',
-        debits: 111.10,
+        debits: 1114543.10,
         credits: 123.43,
         ref_2: 101
     },
     {
         id: 3,
-        posted: false,
+        posted: true,
         account:  'cash',
         year: 2018,
         description: '2b',
         debits: 111.10,
-        credits: 123.43,
+        credits: 1114543.43,
         ref_2: 101
     },
     {
@@ -85,7 +85,7 @@ export const JOURNALS: Journal[] = [
         year: 2018,
         description: '2b',
         debits: 111.10,
-        credits: 123.43,
+        credits: 1114543.43,
         ref_2: 101
     },
     {
@@ -100,7 +100,7 @@ export const JOURNALS: Journal[] = [
     },
     {
         id: 6,
-        posted: false,
+        posted: true,
         account:  'cash',
         year: 2018,
         description: '2b',
@@ -110,7 +110,7 @@ export const JOURNALS: Journal[] = [
     },
     {
         id: 7,
-        posted: false,
+        posted: true,
         account:  'cash',
         year: 2018,
         description: '2b',

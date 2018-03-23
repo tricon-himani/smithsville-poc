@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, OnInit, OnChanges } from '@angular/core';
-import { ColumnSetting } from '../../../models';
+import { ColumnSetting, Journal } from '../../../models';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnChanges {
+export class TableComponent implements OnChanges, OnInit {
 
     keys: string[];
     emptyArrayLength: number;
@@ -19,16 +19,24 @@ export class TableComponent implements OnChanges {
     yearDropDownData: Array<number> = [2017, 2018, 2019];
     selectedYear: any = 'Add Year';
     selectedAccount: any = 'Select Account';
-
-    addEntryForm: FormGroup;
+    newJournal: Journal = new Journal();
+    @ViewChild('addForm') form: any;
+    refCounter: number;
+    idCounter: number;
+    @Output() submitForm: EventEmitter<any> = new EventEmitter();
+    submitted = false;
+    readonly = false;
+    editMode = false;
+    showForm = false;
+    filteredAccounts = [];
+    search: string;
+    posY;
 
     ngOnChanges() {
         console.log('Table Component loaded');
+     //   this.calculateEmptyArrayLength();
         this.keys = Object.keys(this.records[0]);
         console.log('Source:', this.source, 'Columns:', this.keys, 'Rows:', this.records);
-        if (this.source === 'journal') {
-            this.emptyArrayLength = 17 - this.records.length || 0;
-        }
         if (this.settings) { // when settings provided
             this.columnMaps = this.settings;
         } else { // no settings, create column maps with defaults
@@ -42,13 +50,14 @@ export class TableComponent implements OnChanges {
             });
         }
 
-        this.addEntryForm = new FormGroup({
-            account: new FormControl(),
-            year: new FormControl(),
-            description: new FormControl(),
-            debits: new FormControl(),
-            credits: new FormControl()
-        });
+    }
+
+    ngOnInit() {
+
+    }
+
+    calculateEmptyArrayLength() {
+        this.emptyArrayLength = 13 - this.records.length || 0;
     }
 
     selectRow(record) {
@@ -63,12 +72,76 @@ export class TableComponent implements OnChanges {
         }
     }
 
+    onSubmit() {
+        if (this.form.valid) {
+            this.getIdCounter();
+            this.getRefCounter();
+            Object.assign(this.newJournal, {
+                id: this.idCounter + 1,
+                posted: false,
+                year: Number(this.newJournal.year),
+                ref_2: this.refCounter + 1,
+                debits: this.newJournal.debits || 0,
+                credits: this.newJournal.credits || 0
+            });
+           console.log('Form Submitted!');
+           this.submitForm.emit({ 'newJournal': this.newJournal });
+           this.records.push(this.newJournal);
+           this.newJournal =  new Journal();
+     //      this.calculateEmptyArrayLength();
+        }
+    }
+
+    reset() {
+        this.form.reset();
+    }
+
+    onFilterChange($event) {
+        if ($event.target.checked) {
+            this.newJournal.description = 'Closing Entry';
+            this.readonly = true;
+        } else {
+            this.newJournal.description = '';
+        }
+    }
+
+    getIdCounter() {
+        this.idCounter = Math.max.apply(Math, this.records.map(record => record.id));
+    }
+
+    getRefCounter() {
+        this.refCounter = Math.max.apply(Math, this.records.filter(record => record.posted).map(o => o.ref_2));
+    }
+
+    createEntry(journal) {
+        console.log('journal', journal);
+    }
+
     selectYear(year) {
         this.selectedYear = year;
+        this.newJournal.year = year;
+    }
+
+    navigateToEditForm(record, event) {
+        console.log(record, event.clientY);
+        record.isEdit = true;
+        this.newJournal = record;
+        this.editMode = true;
+        this.showForm = true;
+    }
+
+    filterArray(searchKey) {
+        searchKey = searchKey.toUpperCase();
+        this.filteredAccounts =  this.accounts.filter(account => {
+            return account.description.toUpperCase().indexOf(searchKey) !== -1;
+        });
+
     }
 
     selectAccount(account) {
-        this.selectedAccount = account.description;
+        this.newJournal.account = account.description;
     }
+
+
 }
 

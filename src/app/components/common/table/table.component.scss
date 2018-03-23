@@ -1,16 +1,85 @@
 @import "../../../styles/core";
 
 .table {
+    position: relative;
     tbody {
         tr.selected {
             background-color: $brand-primary;
             color: $body-bg;
         }        
         tr.add-entry-row {
-            #description {
-                border: none;
-                border-bottom: 1px solid $brand-primary;
+          input {
+            border: none;
+            border-bottom: 1px solid $brand-primary;
+            background-color: $dark-yellow;
+          }
+          #dropdownAddYear {
+            background-color: $dark-yellow;
+          }
+          input:focus {
+              box-shadow: none;
+          }
+        }
+        tr:nth-of-type(odd).add-entry-row {
+            background-color: $dark-yellow;
+        }
+        .context-menu::-webkit-inner-spin-button, 
+        .context-menu::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin: 0; 
+        }
+    }
+}
+
+.add-entry-row {
+    background-color: $dark-yellow;
+    .ng-valid[required], .ng-valid.required  {
+        border-left: 5px solid $brand-success; /* green */
+    }
+    
+    .ng-invalid:not(form)  {
+        border-left: 5px solid $brand-danger; /* red */
+    }
+    .error {
+        color: $brand-danger;
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        margin: 0; 
+    }
+    .credits-container {
+        display: inline-block;
+        width: 63%;
+    }
+    .checkbox-container {
+        margin: 7px 0 15px 10px;
+        display: flex;
+        
+        input {
+            width: 25px;
+            height: 25px;
+            margin-right: 0.3em;
+            vertical-align: middle;
+        }
+        label {
+            font-size: 16px;
+        }
+    }
+    .button-container {
+        text-align: right;
+        .btn {
+            width: 25%;
+            &.add {
+                margin-right: 2.5em;
             }
         }
     }
+    .account-list-wrapper {       
+        .dropdown-item {
+           
+        }      
+      }
 }
