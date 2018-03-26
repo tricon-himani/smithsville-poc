@@ -2,34 +2,51 @@ import { Account, Entity, Journal, GeneralLedger } from '../models';
 
 export const ACCOUNTS: Account[] = [
     {
-        id: 1,
         account_number: 1010,
         description: 'Cash',
-        control_account: 1010
+        control_account: 1010,
+        child_accounts: []
     },
     {
-        id: 2,
-        account_number: 1050,
-        description: 'Due to Smith County',
-        control_account: 1050
+        account_number: 1020,
+        description: 'Taxes Receivable-Current',
+        control_account: 1020,
+        child_accounts: []
     },
     {
-        id: 2,
-        account_number: 1060,
-        description: 'Due From State government',
-        control_account: 1060
+        account_number: 1021,
+        description: 'Allowance for Uncollectible Current Taxes',
+        control_account: 1021,
+        child_accounts: []
     },
     {
-        id: 2,
+        account_number: 1030,
+        description: 'Taxes Receivable-Delinquent',
+        control_account: 1030,
+        child_accounts: []
+    },
+    {
+        account_number: 1031,
+        description: 'Allowance for Uncollectible Delinquent Taxes',
+        control_account: 1031,
+        child_accounts: []
+    },
+    {
         account_number: 6010,
         description: 'Expenditures',
-        control_account: 6100
-    },
-    {
-        id: 2,
-        account_number: 1250,
-        description: 'Land',
-        control_account: 1250
+        control_account: 6010,
+        child_accounts: [
+            {
+                account_number: 6020,
+                description: 'Expenditures-General Goverment',
+                control_account: 6010
+            },
+            {
+                account_number: 6030,
+                description: 'Expenditures-Public Safety',
+                control_account: 6010
+            }
+        ]
     }
 ];
 
@@ -44,6 +61,26 @@ export const ENTITIES: Entity[] = [
         id: 2,
         fund: 3,
         description: 'Street Improvement Fund',
+    },
+    {
+        id: 3,
+        fund: 4,
+        description: 'Street Improvement Bond Debt Service Fund',
+    },
+    {
+        id: 4,
+        fund: 5,
+        description: 'Governmental Activities, Governmental-Wide level',
+    },
+    {
+        id: 5,
+        fund: 6,
+        description: 'Solid Waste Disposal Fund',
+    },
+    {
+        id: 6,
+        fund: 7,
+        description: 'Tax Agency Fund',
     }
 ];
 

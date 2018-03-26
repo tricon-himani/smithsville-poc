@@ -35,7 +35,7 @@
                     </select> -->            
                     <div ngbDropdown class="d-inline-block account-list-wrapper" class="form-group">                     
                         <input type="text" class="form-control" name="account" #searchField [ngModel]="newJournal.account" ngbDropdownToggle
-                            (keyup)="filterArray(searchField.value)" placeholder="Select account or enter account name" />
+                            (keyup)="filterArray(searchField.value)" (focus)="onBlur(searchField.value)" placeholder="Select account or enter account name" />
                         <div ngbDropdownMenu aria-labelledby="dropdownAddAccount">
                             <button class="dropdown-item" *ngFor="let account of filteredAccounts" (click)="selectAccount(account)">
                                 {{account.description}}

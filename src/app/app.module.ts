@@ -31,7 +31,8 @@ import { HomeComponent,
         LedgerComponent,
         AccountsComponent,
         EntitiesComponent,
-        HeaderComponent
+        HeaderComponent,
+        DetailJournalComponent
       } from './components';
 
 // AoT requires an exported function for factories
@@ -52,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AccountsComponent,
     EntitiesComponent,
     HeaderComponent,
+    DetailJournalComponent,
     WebviewDirective,
     StyleCellDirective,
     EmptyArrayPipe,

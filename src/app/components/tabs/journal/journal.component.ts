@@ -17,6 +17,7 @@ export class JournalComponent implements OnInit {
   filterDropDownData: Array<string> = ['All', 'Posted', 'Unposted'];
   selectedFilter: any = 'Filter entries';
   invalidEntries = false;
+  openDetailJournal = false;
   journalSettings: ColumnSetting[] =
   [
     {
@@ -74,7 +75,11 @@ export class JournalComponent implements OnInit {
   }
 
   onAddFormReturn(data: any) {
-    this.entries.push(data.newJournal);
+    if (data.openDetailJournal) {
+      this.openDetailJournal = true;
+    } else {
+      this.entries.push(data.newJournal);
+    }
   }
 
   postEntries() {

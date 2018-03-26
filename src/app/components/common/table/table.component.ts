@@ -135,11 +135,19 @@ export class TableComponent implements OnChanges, OnInit {
         this.filteredAccounts =  this.accounts.filter(account => {
             return account.description.toUpperCase().indexOf(searchKey) !== -1;
         });
+    }
 
+    onBlur(searchKey) {
+         if (!searchKey) {
+            this.filteredAccounts =  this.accounts;
+         }
     }
 
     selectAccount(account) {
         this.newJournal.account = account.description;
+        if (account.child_accounts.length) {
+            this.submitForm.emit({ 'openDetailJournal': true, 'childAccounts': account.child_accounts });
+        }
     }
 
 
